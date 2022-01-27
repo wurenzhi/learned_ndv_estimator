@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 
@@ -48,8 +50,14 @@ def feature_eng_sparse(fs, Ns):
     return X, ndv_truncated
 
 
-class Estimator:
-    def __init__(self, para_path="model_paras.npy"):
+class ndvEstimator:
+    def __init__(self, para_path=None):
+        '''
+        :param para_path: if None, the default pretrained model parameters are used
+        '''
+        if para_path is None:
+            pt = os.path.dirname(os.path.realpath(__file__))
+            para_path = os.path.join(pt,"model_paras.npy")
         self.paras = np.load(para_path, allow_pickle=True)
 
     def sample2profile(self, S):
@@ -120,7 +128,7 @@ class Estimator:
 
 
 if __name__ == '__main__':
-    estimator = Estimator(para_path="model_paras.npy")
+    estimator = ndvEstimator(para_path="model_paras.npy")
     D1 = estimator.profile_predict(f=[10 ** 3, 0], N=10 ** 4)
     D2 = estimator.profile_predict(f=[10 ** 13, 0], N=10 ** 14)
     print(D1, D2)
