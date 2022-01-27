@@ -1,5 +1,6 @@
 ### Learned NDV estimator
 Learned model to estimate number of distinct values (NDV) of a population using a small sample. The model approximates the maximum likelihood estimation of NDV, which is difficult to obtain analytically.
+See our paper [Learning to be a Statistician: Learned Estimator for Number of Distinct Values](https://vldb.org/pvldb/vol15/p272-wu.pdf) for more details.
 
 ### How to use
 1. Create an instance
@@ -19,7 +20,7 @@ Learned model to estimate number of distinct values (NDV) of a population using 
 
 
 ### How to train the ndv estimator
-You can directly use the trained model for your datasets, as the trained model is agnostic to workloads. If you want to train the model from scratch anyway, do the following:
+You can directly use our trained model for your datasets, as the trained model is agnostic to workloads. If you want to train the model from scratch anyway, do the following:
 1. Go to the model_training folder
     `cd model_training`
 
