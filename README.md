@@ -49,3 +49,24 @@ You can directly use our package on PyPI for your datasets, as the pre-trained m
 6. Test with your model parameters by specifying a path to your model_paras.npy
 
    `estimator = ndvEstimator(para_path=your path to model_paras.npy)`
+
+### Citation
+If you use our work or found it useful, please cite our paper:
+```
+@article{wu2022learning,
+   author = {Wu, Renzhi and Ding, Bolin and Chu, Xu and Wei, Zhewei and Dai, Xiening and Guan, Tao and Zhou, Jingren},
+   title = {Learning to Be a Statistician: Learned Estimator for Number of Distinct Values},
+   year = {2021},
+   issue_date = {October 2021},
+   publisher = {VLDB Endowment},
+   volume = {15},
+   number = {2},
+   issn = {2150-8097},
+   url = {https://doi.org/10.14778/3489496.3489508},
+   doi = {10.14778/3489496.3489508},
+   journal = {Proc. VLDB Endow.},
+   month = {oct},
+   pages = {272–284},
+   numpages = {13}
+}
+```
