@@ -109,7 +109,7 @@ if __name__ == "__main__":
     mtd, name = rfs, "rfs"
     print(name)
     pool = multiprocessing.Pool(n_jobs)
-    gen = partial(generate_training_data, mtd=mtd, n_data=10)
+    gen = partial(generate_training_data, mtd=mtd, n_data=100000)
     result = pool.map(gen, seeds)
     pool.close()
     pool.terminate()
