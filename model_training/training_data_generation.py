@@ -105,7 +105,7 @@ def generate_training_data(seed, mtd, n_data):
 
 if __name__ == "__main__":
     n_jobs = multiprocessing.cpu_count()
-    seeds = np.arange(n_jobs).astype(int)
+    seeds = np.arange(n_jobs).astype(int).tolist()
     mtd, name = rfs, "rfs"
     print(name)
     pool = multiprocessing.Pool(n_jobs)
