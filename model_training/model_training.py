@@ -52,9 +52,10 @@ def feature_eng_sparse(f_s, n, m, ndv=None):
 
 
 class ndvDatasetSparse(Dataset):
-    def __init__(self, f_path, f_s_path, X):
+    def __init__(self, f_path, f_s_path):
         self.f = np.load(f_path)
-        self.f_s = np.load(f_s_path, allow_pickle=True)
+        f_s = np.load(f_s_path)
+        self.f_s = [f_s[key] for key in f_s]
         self.ndv = self.f[:, 1]
         self.n = self.f[:, 0]
         assert np.sum(self.ndv > self.n) == 0
@@ -78,7 +79,7 @@ class ndvDatasetSparse(Dataset):
 
 def load_training_dataset(data_path="training_data"):
     data = ndvDatasetSparse(join(data_path, "rfs_F_infos.npy"),
-                            join(data_path, "rfs_f_s.npy"))
+                            join(data_path, "rfs_f_s.npz"))
     print("data loaded")
     X_train, X_test, y_train, y_test, w_train, w_test, r_train, r_test = train_test_split(data.X.astype(np.float32),
                                                                                           data.y.astype(np.float32),
@@ -153,5 +154,6 @@ def model_training(cp_name, description, loss, Network=Regressor, resume_cp=None
         with open(join(dir, join(cp_name, "desc.txt")), "w") as text_file:
             print(description, file=text_file)
 
-
-model_training("cp_gamma_0_6", description="gamma=0.6", loss=Loss_gamma_0_6, device='cuda')
+if __name__ == '__main__':
+    multiprocessing.freeze_support()
+    model_training("cp_gamma_0_6", description="gamma=0.6", loss=Loss_gamma_0_6, device='cpu')

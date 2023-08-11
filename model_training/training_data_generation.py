@@ -109,7 +109,7 @@ if __name__ == "__main__":
     mtd, name = rfs, "rfs"
     print(name)
     pool = multiprocessing.Pool(n_jobs)
-    gen = partial(generate_training_data, mtd=mtd, n_data=100000)
+    gen = partial(generate_training_data, mtd=mtd, n_data=10)
     result = pool.map(gen, seeds)
     pool.close()
     pool.terminate()
@@ -124,4 +124,4 @@ if __name__ == "__main__":
     if not os.path.exists(data_path):
         os.mkdir(data_path)
     np.save(join(data_path, name + "_F_infos.npy"), F_infos)
-    np.save(join(data_path, name + "_f_s.npy"), f_s_list)
+    np.savez(join(data_path, name + "_f_s"), *f_s_list)
