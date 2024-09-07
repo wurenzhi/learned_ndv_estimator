@@ -23,7 +23,9 @@ def feature_eng_sparse(f_s, n, m, ndv=None):
     '''
     ndv_s = np.array([np.sum(f[:, 1]) for f in f_s])
     n_s = np.array([np.sum(f[:, 0] * f[:, 1]) for f in f_s])
-    fe1 = [n.reshape(-1, 1), n_s.reshape(-1, 1), n.reshape(-1, 1) / (n_s.reshape(-1, 1) + 1e-6),
+    #fe1 = [n.reshape(-1, 1), n_s.reshape(-1, 1), n.reshape(-1, 1) / (n_s.reshape(-1, 1) + 1e-6),
+    #       ndv_s.reshape(-1, 1)]
+    fe1 = [n.reshape(-1, 1)*n.reshape(-1, 1), n_s.reshape(-1, 1), n.reshape(-1, 1)*n.reshape(-1, 1) / (n_s.reshape(-1, 1) + 1e-6),
            ndv_s.reshape(-1, 1)]
     f_s_trunc = []
     n_s_truncated = []
@@ -41,11 +43,11 @@ def feature_eng_sparse(f_s, n, m, ndv=None):
     f_s_trunc = np.array(f_s_trunc)
     fe2 = [n_s_truncated, ndv_truncated, f_s_trunc]
     X = np.concatenate(fe1 + fe2, axis=1)
-    X = np.log(np.abs(X) + 1e-3)
+    X = np.log(np.abs(X) + 1e-3) - np.log(n.reshape(-1, 1) + 0.1)
     print(X.shape)
     if ndv is not None:
         y = ndv - ndv_truncated
-        y = np.log(y + 0.1)
+        y = np.log(y + 0.1) - np.log(n.reshape(-1, 1) + 0.1)
         return X, y
     else:
         return X

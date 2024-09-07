@@ -1,19 +1,18 @@
 Metadata-Version: 2.1
 Name: estndv
-Version: 0.0.2
+Version: 0.0.3
 Summary: Learned sample-based estimator for number of distinct values.
 Home-page: https://github.com/wurenzhi/learned_ndv_estimator
 Author: Renzhi Wu
 Author-email: renzhiwu@gatech.edu
-License: UNKNOWN
 Project-URL: Bug Tracker, https://github.com/wurenzhi/learned_ndv_estimator/issues
-Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: numpy
 
 ### Learned NDV estimator
 Learned model to estimate number of distinct values (NDV) of a population using a small sample. The model approximates the maximum likelihood estimation of NDV, which is difficult to obtain analytically.
@@ -44,7 +43,7 @@ See our VLDB 2022 paper [Learning to be a Statistician: Learned Estimator for Nu
 
 
 ### How to train the ndv estimator
-You can directly use our packaged library for your datasets, as the pre-trained model in the packed library is agnostic to any workloads. However, if you want to train the model from scratch anyway, do the following:
+You can directly use our package on PyPI for your datasets, as the pre-trained model is agnostic to any workloads. However, if you want to train the model from scratch anyway, do the following:
 1. Go to the model_training folder
     `cd model_training`
 
@@ -67,3 +66,23 @@ You can directly use our packaged library for your datasets, as the pre-trained 
 
    `estimator = ndvEstimator(para_path=your path to model_paras.npy)`
 
+### Citation
+If you use our work or found it useful, please cite our paper:
+```
+@article{wu2022learning,
+   author = {Wu, Renzhi and Ding, Bolin and Chu, Xu and Wei, Zhewei and Dai, Xiening and Guan, Tao and Zhou, Jingren},
+   title = {Learning to Be a Statistician: Learned Estimator for Number of Distinct Values},
+   year = {2021},
+   issue_date = {October 2021},
+   publisher = {VLDB Endowment},
+   volume = {15},
+   number = {2},
+   issn = {2150-8097},
+   url = {https://doi.org/10.14778/3489496.3489508},
+   doi = {10.14778/3489496.3489508},
+   journal = {Proc. VLDB Endow.},
+   month = {oct},
+   pages = {272–284},
+   numpages = {13}
+}
+```

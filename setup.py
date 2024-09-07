@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="estndv",
-    version="0.0.2",
+    version="0.0.3",
     author="Renzhi Wu",
     author_email="renzhiwu@gatech.edu",
     description="Learned sample-based estimator for number of distinct values.",

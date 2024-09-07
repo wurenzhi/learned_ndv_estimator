@@ -37,6 +37,6 @@ def save_model_para(model_cp):
     paras = []
     for para in model.get_params()['module'].parameters():
         paras.append(para.data.cpu().numpy())
-    np.save("model_paras.npy", paras)
+    np.save("model_paras.npy", np.array(paras, dtype=object), allow_pickle=True)
 
 save_model_para('cp_gamma_0_6')

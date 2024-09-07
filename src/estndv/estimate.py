@@ -24,11 +24,11 @@ def feature_eng_sparse(fs, Ns):
     :param Ns:
     :return:
     '''
-    Ns = np.array(Ns)
+    Ns = np.array(Ns).astype(float)
     m = 100
     ndv_s = np.array([np.sum(f[:, 1]) for f in fs])
     n_s = np.array([np.sum(f[:, 0] * f[:, 1]) for f in fs])
-    fe1 = [Ns.reshape(-1, 1), n_s.reshape(-1, 1), Ns.reshape(-1, 1) / (n_s.reshape(-1, 1) + 1e-6),
+    fe1 = [Ns.reshape(-1, 1)*Ns.reshape(-1, 1), n_s.reshape(-1, 1), Ns.reshape(-1, 1)*Ns.reshape(-1, 1) / (n_s.reshape(-1, 1) + 1e-6),
            ndv_s.reshape(-1, 1)]
     f_s_trunc = []
     n_s_truncated = []
@@ -46,7 +46,7 @@ def feature_eng_sparse(fs, Ns):
     f_s_trunc = np.array(f_s_trunc)
     fe2 = [n_s_truncated, ndv_truncated, f_s_trunc]
     X = np.concatenate(fe1 + fe2, axis=1)
-    X = np.log(np.abs(X) + 1e-3)
+    X = np.log(np.abs(X) + 1e-3) - np.log(Ns.reshape(-1, 1) + 0.1)
     return X, ndv_truncated
 
 
@@ -122,18 +122,21 @@ class ndvEstimator:
                 y1 = ((x > 0) * x)
                 y2 = ((x <= 0) * x * 0.01)
                 x = y1 + y2
-        y_p = np.exp(x) - 0.1 + truncated
+        x[x<0] = 0
+        x = -np.abs(x)
+        y_p = np.exp(x + np.log(np.array(N_list).astype(float).reshape(-1, 1) + 0.1)) - 0.1 + truncated
         y_p = np.squeeze(y_p)
         return y_p
 
 
 if __name__ == '__main__':
     estimator = ndvEstimator(para_path="model_paras.npy")
+    print(estimator.sample_predict_batch(S_list=[[1,2, 2]], N_list=[70]))
     D1 = estimator.profile_predict(f=[10 ** 3, 0], N=10 ** 4)
     D2 = estimator.profile_predict(f=[10 ** 13, 0], N=10 ** 14)
     print(D1, D2)
     print(estimator.sample_predict_batch(S_list=[[1, 1, 1, 3, 5, 5, 12], [1, 1, 1, 1, 5, 5, 12]], N_list=[100000, 500]))
     print(estimator.profile_predict_batch(f_list=[[2, 1, 1]], N_list=[100000]))
     print(estimator.profile_predict_batch(f_list=[[2, 1, 1], [1, 1, 0, 1]], N_list=[100000, 500]))
-    for i in range(9, 20):
+    for i in range(9, 19):
         print(i, estimator.profile_predict(f=[10 ** i, 0], N=int(10 ** (i + 1))))
